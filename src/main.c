@@ -10,6 +10,7 @@
 wchar_t *buf;
 size_t bufcap;
 size_t buflen;
+int curlinelen = 0;
 
 void push(wchar_t c) {
     if (buflen == bufcap) {
@@ -50,6 +51,7 @@ int skipspace(FILE *fp, FILE *out)
     }
     if (count > 0 && lines < 2 && g_widechar) {
         fputwc(' ', out);
+        curlinelen++;
     }
     return lines;
 }
@@ -90,7 +92,6 @@ int readword(FILE *fp, FILE *out)
 int main()
 {
     setlocale(LC_ALL, "");
-    int curlinelen = 0;
     buf = malloc(1025 * sizeof(wchar_t));
     buf[0] = '\0';
     bufcap = 1024;
